@@ -1,8 +1,9 @@
 ﻿using MediatR;
+using MockProject.Domain.Entities;
 
 namespace MockProject.Application.Commands
 {
-    public sealed class RegisterCommand : IRequest
+    public sealed class RegisterCommand : IRequest<int>
     {
         public string Email { get; }
         public string UserName { get; }

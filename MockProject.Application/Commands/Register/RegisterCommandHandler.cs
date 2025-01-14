@@ -1,10 +1,9 @@
-﻿using MockProject.Domain.Repositories;
-
-using MediatR;
+﻿using MediatR;
+using MockProject.Domain.Repositories;
 
 namespace MockProject.Application.Commands
 {
-    internal class RegisterCommandHandler : IRequestHandler<RegisterCommand>
+    internal class RegisterCommandHandler : IRequestHandler<RegisterCommand, int>
     {
         private readonly IUserRepository _userRepository;
 
@@ -13,9 +12,9 @@ namespace MockProject.Application.Commands
             _userRepository = userRepository;
         }
 
-        public async Task Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            await _userRepository.CreateUserAsync(request.Email, request.UserName, request.Password);
+            return await _userRepository.CreateUserAsync(request.Email, request.UserName, request.Password);
         }
     }
 }

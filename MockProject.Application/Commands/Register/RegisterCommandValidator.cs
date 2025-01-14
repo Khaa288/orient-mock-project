@@ -17,7 +17,7 @@ namespace MockProject.Application.Commands.Register
 
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage("Username is required.")
+                .WithMessage("Email is required.")
                 .EmailAddress()
                 .WithMessage("Not a valid email address");
         } 

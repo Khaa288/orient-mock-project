@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-using System.Text.Json;
+﻿using System.Net;
 using System.Text;
+using System.Text.Json;
 using FluentValidation;
+using Microsoft.AspNetCore.Diagnostics;
+using MockProject.API.Common;
 
 namespace MockProject.API.Extensions
 {
@@ -21,13 +23,16 @@ namespace MockProject.API.Extensions
                         throw exception;
                     }
 
-                    var errors = validationException.Errors.Select(err => new
-                    {
-                        err.PropertyName,
-                        err.ErrorMessage
-                    });
+                    var errors = validationException.Errors.Select(err => err.ErrorMessage);
 
-                    var errorText = JsonSerializer.Serialize(errors);
+                    var response = new ApiResponse()
+                    {
+                        IsSuccess = false,
+                        StatusCode = HttpStatusCode.BadRequest,
+                        Errors = errors.ToList(),
+                    };
+
+                    var errorText = JsonSerializer.Serialize(response);
                     context.Response.StatusCode = 400;
                     context.Response.ContentType = "application/json";
                     await context.Response.WriteAsync(errorText, Encoding.UTF8);

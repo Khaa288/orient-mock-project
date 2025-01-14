@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MockProject.Persistence.DataAccess
 {
-    internal class MockProjectDbContext : DbContext
+    public class MockProjectDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
 

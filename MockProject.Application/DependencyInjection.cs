@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using MockProject.Application.Behaviours;
+using MockProject.Domain;
 
 namespace MockProject.Application
 {
@@ -13,11 +14,13 @@ namespace MockProject.Application
             services.AddMediatR(configuration =>
             {
                 configuration.RegisterServicesFromAssembly(applicationAssembly);
+
                 configuration.AddOpenBehavior(typeof(ValidationBehavior<,>));
+                configuration.AddOpenBehavior(typeof(UnitOfWorkBehaviour<,>));
             });
 
             services.AddValidatorsFromAssembly(applicationAssembly);
-            
+
             return services;
         }
     }

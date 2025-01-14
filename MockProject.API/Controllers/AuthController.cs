@@ -1,8 +1,10 @@
-﻿using MockProject.API.Dtos;
-using MockProject.Application.Commands;
-
+﻿using System.Net;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MockProject.API.Common;
+using MockProject.API.Dtos;
+using MockProject.Application.Commands;
+using MockProject.Domain.Entities;
 
 namespace MockProject.API.Controllers
 {
@@ -20,15 +22,27 @@ namespace MockProject.API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginRequestDto request)
         {
-            var token = await _mediator.Send(new LoginCommand(request.Username, request.Password));
-            return Ok(token);
+            var user = await _mediator.Send(new LoginCommand(request.Username, request.Password));
+
+            return Ok(new ApiResponse()
+            {
+                IsSuccess = true,
+                StatusCode = HttpStatusCode.OK,
+                Result = user
+            });
         }
 
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterRequestDto request)
         {
-            await _mediator.Send(new RegisterCommand(request.Email, request.Username, request.Password));
-            return Ok();
+            int isRegistered = await _mediator.Send(new RegisterCommand(request.Email, request.Username, request.Password));
+
+            return Ok(new ApiResponse()
+            {
+                IsSuccess = isRegistered == 1,
+                StatusCode = isRegistered == 1 ? HttpStatusCode.Created : HttpStatusCode.BadRequest,
+                Result = isRegistered
+            });
         }
     }
 }

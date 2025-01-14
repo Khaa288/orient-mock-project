@@ -15,7 +15,7 @@ namespace MockProject.Application.Behaviours
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            var context = new FluentValidation.ValidationContext<TRequest>(request);
+            var context = new ValidationContext<TRequest>(request);
 
             var validationFailures = await Task.WhenAll(
             _validator.Select(validator => validator.ValidateAsync(context, cancellationToken)));

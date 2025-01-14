@@ -29,18 +29,21 @@ namespace MockProject.Persistence.Repositories
             return await _mockProjectDbContext.Users.ToListAsync();
         }
 
-        public async Task UpdateUserAsync(Guid id, string email)
+        public async Task<int> UpdateUserAsync(Guid id, string email)
         {
             var user = await _mockProjectDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
 
-            if (user is not null)
+            if (user is null)
             {
-                user.Email = email;
-                _mockProjectDbContext.Users.Update(user);
-                await _mockProjectDbContext.SaveChangesAsync();
+                return 0;
             }
+
+            user.Email = email;
+            _mockProjectDbContext.Users.Update(user);
+
+            return 1;
         }
-        public async Task CreateUserAsync(string email, string username, string password)
+        public async Task<int> CreateUserAsync(string email, string username, string password)
         {
             var user = new User()
             {
@@ -50,18 +53,21 @@ namespace MockProject.Persistence.Repositories
             };
 
             await _mockProjectDbContext.Users.AddAsync(user);
-            await _mockProjectDbContext.SaveChangesAsync();
+
+            return 1;
         }
 
-        public async Task DeleteUserAsync(Guid id)
+        public async Task<int> DeleteUserAsync(Guid id)
         {
             var user = await _mockProjectDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
 
-            if (user is not null)
+            if (user is null)
             {
-                _mockProjectDbContext.Users.Remove(user);
-                await _mockProjectDbContext.SaveChangesAsync();
+                return 0;
             }
+
+            _mockProjectDbContext.Users.Remove(user);
+            return 1;
         }
     }
 }

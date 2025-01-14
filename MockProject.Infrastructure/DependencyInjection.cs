@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+
+using MockProject.Domain;
 using MockProject.Domain.Repositories;
 using MockProject.Persistence.DataAccess;
 using MockProject.Persistence.Repositories;
@@ -15,6 +17,8 @@ namespace MockProject.Persistence
             services.AddDbContext<MockProjectDbContext>(options => options.UseSqlServer(databaseConnectionString));
 
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
