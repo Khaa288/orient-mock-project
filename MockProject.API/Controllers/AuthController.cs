@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using MockProject.API.Common;
 using MockProject.API.Dtos;
 using MockProject.Application.Commands;
-using MockProject.Domain.Entities;
 
 namespace MockProject.API.Controllers
 {
