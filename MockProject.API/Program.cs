@@ -1,6 +1,8 @@
-using MockProject.Application;
-using MockProject.Persistence;
 using MockProject.API.Extensions;
+using MockProject.Application;
+using MockProject.Infrastructure;
+using MockProject.Infrastructure.Services.Token;
+using MockProject.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,8 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 
 builder.Services
     .AddApplication()
-    .AddInfrastructure(builder.Configuration.GetConnectionString("SQL_CONNECTIONSTRING"));
+    .AddInfrastructure(new TokenConfiguration(builder.Configuration["Jwt:Issuer"], builder.Configuration["Jwt:Audience"], builder.Configuration["Jwt:Key"]))
+    .AddPersistence(builder.Configuration.GetConnectionString("SQL_CONNECTIONSTRING"));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -31,6 +34,8 @@ if (app.Environment.IsDevelopment())
 app.UseFluentValidationExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

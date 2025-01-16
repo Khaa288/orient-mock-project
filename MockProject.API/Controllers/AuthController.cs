@@ -22,13 +22,22 @@ namespace MockProject.API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginRequestDto request)
         {
-            var user = await _mediator.Send(new LoginCommand(request.Username, request.Password));
+            var token = await _mediator.Send(new LoginCommand(request.Username, request.Password));
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return NotFound(new ApiResponse()
+                {
+                    IsSuccess = false,
+                    StatusCode = HttpStatusCode.NotFound
+                });
+            }
 
             return Ok(new ApiResponse()
             {
                 IsSuccess = true,
                 StatusCode = HttpStatusCode.OK,
-                Result = user
+                Result = token
             });
         }
 
@@ -37,10 +46,19 @@ namespace MockProject.API.Controllers
         {
             int isRegistered = await _mediator.Send(new RegisterCommand(request.Email, request.Username, request.Password));
 
+            if (isRegistered == 0)
+            {
+                return NotFound(new ApiResponse()
+                {
+                    IsSuccess = false,
+                    StatusCode = HttpStatusCode.NotFound
+                });
+            }
+
             return Ok(new ApiResponse()
             {
-                IsSuccess = isRegistered == 1,
-                StatusCode = isRegistered == 1 ? HttpStatusCode.Created : HttpStatusCode.BadRequest,
+                IsSuccess = true,
+                StatusCode = HttpStatusCode.Created,
                 Result = isRegistered
             });
         }

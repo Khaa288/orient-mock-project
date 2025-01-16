@@ -17,7 +17,8 @@
   <ItemGroup>
     <ProjectReference Include="..\MockProject.Application\MockProject.Application.csproj" />
     <ProjectReference Include="..\MockProject.Domain\MockProject.Domain.csproj" />
-    <ProjectReference Include="..\MockProject.Infrastructure\MockProject.Persistence.csproj" />
+    <ProjectReference Include="..\MockProject.Infrastructure\MockProject.Infrastructure.csproj" />
+    <ProjectReference Include="..\MockProject.Persistence\MockProject.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

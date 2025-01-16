@@ -4,7 +4,7 @@ using MediatR;
 
 namespace MockProject.Application.Commands
 {
-    public sealed class LoginCommand : IRequest<User>
+    public sealed class LoginCommand : IRequest<string>
     {
         public string UserName { get; }
         public string Password { get; }
