@@ -1,36 +1,45 @@
 # .NET Core API Project Template with Clean Architecture
 
+## **Workflow**
+![implementation](planning.png)
+
+![planning](implementation.png)
+
 ## **Folder Structure**
 
 ```
 src/
+  |-- MockProject.API/
+  |     |-- Common/
+  |     |-- Controllers/
+  |     |-- Dtos/
+  |     |-- Extensions/
+  |     |-- Program.cs
+  |
   |-- MockProject.Application/
-  |     |-- Interfaces/
+  |     |-- Behaviours/
+  |     |-- Commands/
+  |     |-- Constants/
+  |     |-- Enums/
   |     |-- Services/
-  |     |-- Features/
   |     |-- DependencyInjection.cs
   |
   |-- MockProject.Domain/
   |     |-- Entities/
   |     |-- Repositories/
+  |     |-- UnitOfWork.cs
+  |
+  |-- MockProject.Infrastructure/
+  |     |-- Services/
+  |     |-- DependencyInjection.cs
   |
   |-- MockProject.Persistence/
   |     |-- DataAccess/
   |     |-- Migrations/
   |     |-- Repositories/
+  |     |-- UnitOfWork.cs
   |     |-- DependencyInjection.cs
   |
-  |-- MockProject.API/
-        |-- Controllers/
-        |-- Dtos/
-        |-- Extensions/
-        |-- Program.cs
-
-tests/
-  |-- Application.Tests/
-  |-- Domain.Tests/
-  |-- Infrastructure.Tests/
-  |-- API.Tests/
 ```
 
 ---
@@ -51,5 +60,6 @@ tests/
 3. **EF Core** connecting to Database.
 4. **FluentValidation** for Input Validation.  
 5. **Repository** & **UnitOfWork** for data access abstraction. 
+6. **JWT** for authentication. 
 
 ---
